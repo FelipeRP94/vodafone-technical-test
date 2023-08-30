@@ -1,4 +1,7 @@
-import { getDevices, getDeviceById } from "../../../application/getDevices";
+import {
+  getDevices,
+  getDeviceById,
+} from "../../../application/use-cases/devices";
 
 export const deviceResolvers = {
   Query: {

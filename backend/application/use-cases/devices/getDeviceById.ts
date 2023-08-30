@@ -1,10 +1,6 @@
-import { DeviceRepository } from "../infrastructure/repositories/device.repository";
+import { DeviceRepository } from "../../../infrastructure/repositories/device.repository";
 import { GraphQLError } from "graphql";
 import { isValidObjectId } from "mongoose";
-
-export const getDevices = async () => {
-  return await DeviceRepository.getDevices();
-};
 
 export const getDeviceById = async (id: string) => {
   if (!isValidObjectId(id)) {
