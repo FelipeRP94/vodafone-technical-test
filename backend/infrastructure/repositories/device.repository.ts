@@ -8,4 +8,11 @@ export const DeviceRepository = {
       console.error(error);
     }
   },
+  getDeviceById: async (id: string) => {
+    try {
+      return await DeviceSchema.findById(id);
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

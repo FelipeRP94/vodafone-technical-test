@@ -12,5 +12,6 @@ export const deviceTypeDefs = gql`
 
   type Query {
     getDevices: [Device]
+    getDeviceById(id: ID!): Device
   }
 `;
