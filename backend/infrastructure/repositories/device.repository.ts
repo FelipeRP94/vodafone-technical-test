@@ -1,3 +1,4 @@
+import { Device } from "../../domain/device.model";
 import DeviceSchema from "../database/schema/device.schema";
 
 export const DeviceRepository = {
@@ -11,6 +12,15 @@ export const DeviceRepository = {
   getDeviceById: async (id: string) => {
     try {
       return await DeviceSchema.findById(id);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  createDevice: async (device: Device) => {
+    try {
+      const newDevice = new DeviceSchema(device);
+
+      return await newDevice.save();
     } catch (error) {
       console.error(error);
     }

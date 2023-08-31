@@ -10,8 +10,20 @@ export const deviceTypeDefs = gql`
     longitude: Float!
   }
 
+  input DeviceInput {
+    name: String!
+    mobileNumber: String!
+    lastConnection: String!
+    latitude: Float!
+    longitude: Float!
+  }
+
   type Query {
     getDevices: [Device]
     getDeviceById(id: ID!): Device
+  }
+
+  type Mutation {
+    createDevice(device: DeviceInput!): Device
   }
 `;
