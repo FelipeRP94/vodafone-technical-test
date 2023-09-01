@@ -1,6 +1,13 @@
-import "./App.css";
+import { AppRouter } from "./lib/react-router/router";
 import { Header } from "./components/header/header.component";
 
 export const App = () => {
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <main>
+        <AppRouter />
+      </main>
+    </>
+  );
 };
