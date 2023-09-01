@@ -1,5 +1,6 @@
 import "./App.css";
+import { Header } from "./components/header/header.component";
 
 export const App = () => {
-  return <h1>Hello Wordl!</h1>;
+  return <Header />;
 };
