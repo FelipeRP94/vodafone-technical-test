@@ -1,7 +1,11 @@
+import { PageTitle } from "../components/title/page-title-component";
+import { DevicesMap } from "../features/devices-map/devices-map.component";
+
 export const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
+    <>
+      <PageTitle title="Home page" />
+      <DevicesMap />
+    </>
   );
 };
