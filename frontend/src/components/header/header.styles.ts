@@ -9,5 +9,5 @@ export const HeaderContainer = styled(AppBar)`
 `;
 
 export const Logo = styled.img`
-  width: 10%;
+  width: 100px;
 `;
