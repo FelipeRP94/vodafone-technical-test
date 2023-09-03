@@ -5,15 +5,17 @@ export const dateScalar = new GraphQLScalarType({
   description: "Date custom scalar type",
   serialize(value) {
     if (value instanceof Date) {
-      return value.getTime(); // Convert outgoing Date to integer for JSON
+      return value.toLocaleString(); // Convert outgoing Date to integer for JSON
     }
     throw Error("GraphQL Date Scalar serializer expected a `Date` object");
   },
   parseValue(value) {
-    if (typeof value === "number") {
+    if (typeof value === "number" || typeof value === "string") {
       return new Date(value); // Convert incoming integer to Date
     }
-    throw new Error("GraphQL Date Scalar parser expected a `number`");
+    throw new Error(
+      "GraphQL Date Scalar parser expected a `number`" + typeof value
+    );
   },
   parseLiteral(ast) {
     if (ast.kind === Kind.INT) {
