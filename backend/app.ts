@@ -9,9 +9,7 @@ import express = require("express");
 dotenv.config();
 
 const corsOptions = {
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
+  origin: "http://localhost:3000",
 };
 
 const port = process.env.PORT || 8080;
@@ -20,7 +18,7 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
 
-async function startServer() {
+const startGraphqlServer = async () => {
   const server = new ApolloServer({
     typeDefs: [deviceTypeDefs],
     resolvers: [deviceResolvers],
@@ -31,9 +29,9 @@ async function startServer() {
     app,
     cors: corsOptions,
   });
-}
+};
 
-startServer();
+startGraphqlServer();
 dbConnection();
 
 app.listen(port, () => {
