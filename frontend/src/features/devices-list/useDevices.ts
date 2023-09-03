@@ -4,7 +4,7 @@ import { Device } from "./device.model";
 const GET_DEVICES = gql`
   query GetDevices {
     getDevices {
-      _id
+      id
       name
       mobileNumber
       lastConnection
