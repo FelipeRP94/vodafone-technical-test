@@ -18,7 +18,7 @@ export const DeviceDetail = ({ id }: Props) => {
 
   const mapMarkers: MapMarker[] = [
     {
-      id: device._id,
+      id: device.id,
       position: {
         lat: device.latitude,
         lng: device.longitude,

@@ -4,7 +4,7 @@ export const deviceTypeDefs = gql`
   scalar Date
 
   type Device {
-    _id: ID!
+    id: ID!
     name: String!
     mobileNumber: String!
     lastConnection: Date!

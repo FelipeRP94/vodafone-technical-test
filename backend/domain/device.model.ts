@@ -1,5 +1,5 @@
 export interface Device {
-  _id?: string;
+  id?: string;
   name: string;
   mobileNumber: string;
   lastConnection: Date;

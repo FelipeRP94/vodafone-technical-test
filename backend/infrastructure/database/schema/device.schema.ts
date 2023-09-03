@@ -23,4 +23,10 @@ const DeviceSchema = new Schema({
   },
 });
 
+DeviceSchema.methods.toJSON = function () {
+  const { _id, ...device } = this.toObject();
+
+  return { id: _id, ...device };
+};
+
 export default model("Device", DeviceSchema);

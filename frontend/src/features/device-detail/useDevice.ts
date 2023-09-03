@@ -4,7 +4,7 @@ import { Device } from "../devices-list/device.model";
 const GET_DEVICE_BY_ID = gql`
   query Query($deviceId: ID!) {
     getDeviceById(id: $deviceId) {
-      _id
+      id
       name
       mobileNumber
       lastConnection

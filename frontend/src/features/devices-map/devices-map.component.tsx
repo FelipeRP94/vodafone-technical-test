@@ -19,7 +19,7 @@ export const DevicesMap = () => {
     );
 
   const mapMarkers: MapMarker[] = devices?.map((device) => ({
-    id: device._id,
+    id: device.id,
     position: {
       lat: device.latitude,
       lng: device.longitude,
@@ -27,7 +27,7 @@ export const DevicesMap = () => {
     title: device.name,
     infoComponent: <DeviceMarkerInformation device={device} />,
     onClick: () =>
-      navigate(`${routes.DEVICE_DETAIL.replace(":id", device._id)}`),
+      navigate(`${routes.DEVICE_DETAIL.replace(":id", device.id)}`),
   }));
 
   return <Map markers={mapMarkers} />;
