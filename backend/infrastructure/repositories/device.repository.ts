@@ -16,6 +16,11 @@ export const DeviceRepository = {
       console.error(error);
     }
   },
+  getDeviceByMobileNumber: async (mobileNumber: string) => {
+    return await DeviceSchema.findOne({
+      mobileNumber,
+    });
+  },
   createDevice: async (device: Device) => {
     try {
       const newDevice = new DeviceSchema(device);
