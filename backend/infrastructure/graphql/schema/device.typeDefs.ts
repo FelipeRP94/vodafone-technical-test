@@ -1,11 +1,13 @@
 import { gql } from "apollo-server-express";
 
 export const deviceTypeDefs = gql`
+  scalar Date
+
   type Device {
     _id: ID!
     name: String!
     mobileNumber: String!
-    lastConnection: String!
+    lastConnection: Date!
     latitude: Float!
     longitude: Float!
   }
@@ -13,7 +15,7 @@ export const deviceTypeDefs = gql`
   input DeviceInput {
     name: String!
     mobileNumber: String!
-    lastConnection: String!
+    lastConnection: Date!
     latitude: Float!
     longitude: Float!
   }

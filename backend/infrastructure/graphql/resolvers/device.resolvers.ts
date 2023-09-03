@@ -3,8 +3,10 @@ import {
   getDeviceById,
   createDevice,
 } from "../../../application/use-cases/devices";
+import { dateScalar } from "../scalars/date.scalar";
 
 export const deviceResolvers = {
+  Date: dateScalar,
   Query: {
     getDevices: async () => {
       return await getDevices();
