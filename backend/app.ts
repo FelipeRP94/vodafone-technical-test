@@ -6,12 +6,18 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express = require("express");
 
-const port = process.env.PORT || 8080;
-
 dotenv.config();
 
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
+const port = process.env.PORT || 8080;
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 async function startServer() {
@@ -21,7 +27,10 @@ async function startServer() {
   });
 
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({
+    app,
+    cors: corsOptions,
+  });
 }
 
 startServer();
