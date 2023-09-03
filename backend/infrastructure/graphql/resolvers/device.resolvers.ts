@@ -1,8 +1,4 @@
-import {
-  getDevices,
-  getDeviceById,
-  createDevice,
-} from "../../../application/use-cases/devices";
+import { getDevices, getDeviceById, createDevice } from "../../../application";
 import { dateScalar } from "../scalars/date.scalar";
 
 export const deviceResolvers = {

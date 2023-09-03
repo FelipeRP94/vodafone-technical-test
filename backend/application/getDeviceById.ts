@@ -1,4 +1,4 @@
-import { DeviceRepository } from "../../../infrastructure/repositories/device.repository";
+import { DeviceRepository } from "../infrastructure/repositories/device.repository";
 import { GraphQLError } from "graphql";
 import { isValidObjectId } from "mongoose";
 

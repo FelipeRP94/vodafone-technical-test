@@ -1,5 +1,5 @@
-import { Device } from "../../../domain/device.model";
-import { DeviceRepository } from "../../../infrastructure/repositories/device.repository";
+import { Device } from "../domain/device.model";
+import { DeviceRepository } from "../infrastructure/repositories/device.repository";
 import { GraphQLError } from "graphql";
 
 const deviceFieldsValidation = (device: Device) => {
@@ -47,11 +47,21 @@ const deviceFieldsValidation = (device: Device) => {
 };
 
 export const createDevice = async (device: Device) => {
-  let deviceCreated = null;
+  deviceFieldsValidation(device);
 
-  if (deviceFieldsValidation(device)) {
-    deviceCreated = DeviceRepository.createDevice(device);
+  const deviceByMobileNumber = await DeviceRepository.getDeviceByMobileNumber(
+    device.mobileNumber
+  );
+
+  if (!!deviceByMobileNumber) {
+    throw new GraphQLError("Mobile number already exists", {
+      extensions: {
+        code: "MOBILE_NUMBER_ALREADY_EXISTS",
+      },
+    });
   }
+
+  const deviceCreated = await DeviceRepository.createDevice(device);
 
   if (!deviceCreated) {
     throw new GraphQLError("Error creating device", {
