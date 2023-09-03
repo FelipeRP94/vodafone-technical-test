@@ -1,8 +1,12 @@
 export interface MapMarker {
   id: string;
-  latitude: number;
-  longitude: number;
+  position: MapPosition;
   title?: string;
   infoComponent?: JSX.Element;
   onClick?: () => void;
+}
+
+export interface MapPosition {
+  lat: number;
+  lng: number;
 }

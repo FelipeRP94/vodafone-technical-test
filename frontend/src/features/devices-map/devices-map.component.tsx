@@ -20,10 +20,11 @@ export const DevicesMap = () => {
 
   const mapMarkers: MapMarker[] = devices?.map((device) => ({
     id: device._id,
-    latitude: device.latitude,
-    longitude: device.longitude,
+    position: {
+      lat: device.latitude,
+      lng: device.longitude,
+    },
     title: device.name,
-    subtitle: device.mobileNumber,
     infoComponent: <DeviceMarkerInformation device={device} />,
     onClick: () =>
       navigate(`${routes.DEVICE_DETAIL.replace(":id", device._id)}`),

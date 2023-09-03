@@ -5,7 +5,7 @@ import {
   MarkerClusterer,
   InfoWindow,
 } from "@react-google-maps/api";
-import { MapMarker } from "../../model/map.model";
+import { MapMarker, MapPosition } from "../../model/map.model";
 import { useState } from "react";
 
 const containerStyle = {
@@ -14,16 +14,20 @@ const containerStyle = {
 };
 
 // Málaga coordinates
-const center = {
+const defaultCenter = {
   lat: 36.719444,
   lng: -4.42,
 };
 
+const defaultZoom = 11;
+
 interface Props {
   markers?: MapMarker[];
+  center?: MapPosition;
+  zoom?: number;
 }
 
-export const Map = ({ markers }: Props) => {
+export const Map = ({ markers, center, zoom }: Props) => {
   const [selectedMarker, setSelectedMarker] = useState<MapMarker | null>(null);
 
   const { isLoaded } = useJsApiLoader({
@@ -32,7 +36,11 @@ export const Map = ({ markers }: Props) => {
   });
 
   return isLoaded ? (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={11}>
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center || defaultCenter}
+      zoom={zoom || defaultZoom}
+    >
       {markers && (
         <MarkerClusterer maxZoom={14} averageCenter={true}>
           {(clusterer) => (
@@ -40,10 +48,7 @@ export const Map = ({ markers }: Props) => {
               {markers.map((marker) => (
                 <Marker
                   key={marker.title}
-                  position={{
-                    lat: marker.latitude,
-                    lng: marker.longitude,
-                  }}
+                  position={marker.position}
                   label={marker.title}
                   onClick={marker.onClick}
                   onMouseOver={(_) => setSelectedMarker(marker)}
@@ -55,12 +60,9 @@ export const Map = ({ markers }: Props) => {
                     origin: new google.maps.Point(0, -20),
                   }}
                 >
-                  {selectedMarker?.id === marker.id && (
+                  {selectedMarker?.id === marker.id && marker.infoComponent && (
                     <InfoWindow
-                      position={{
-                        lat: marker.latitude,
-                        lng: marker.longitude,
-                      }}
+                      position={marker.position}
                       onCloseClick={() => setSelectedMarker(null)}
                     >
                       {marker.infoComponent}
