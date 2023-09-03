@@ -11,6 +11,7 @@ import { useState } from "react";
 const containerStyle = {
   width: "100%",
   height: "500px",
+  flex: 1,
 };
 
 // Málaga coordinates
@@ -25,9 +26,10 @@ interface Props {
   markers?: MapMarker[];
   center?: MapPosition;
   zoom?: number;
+  getClickPosition?: (position: MapPosition) => void;
 }
 
-export const Map = ({ markers, center, zoom }: Props) => {
+export const Map = ({ markers, center, zoom, getClickPosition }: Props) => {
   const [selectedMarker, setSelectedMarker] = useState<MapMarker | null>(null);
 
   const { isLoaded } = useJsApiLoader({
@@ -40,6 +42,13 @@ export const Map = ({ markers, center, zoom }: Props) => {
       mapContainerStyle={containerStyle}
       center={center || defaultCenter}
       zoom={zoom || defaultZoom}
+      onClick={(event) =>
+        getClickPosition &&
+        getClickPosition({
+          lat: event.latLng?.lat() || 0,
+          lng: event.latLng?.lng() || 0,
+        })
+      }
     >
       {markers && (
         <MarkerClusterer maxZoom={14} averageCenter={true}>
@@ -47,7 +56,7 @@ export const Map = ({ markers, center, zoom }: Props) => {
             <div>
               {markers.map((marker) => (
                 <Marker
-                  key={marker.title}
+                  key={marker.id}
                   position={marker.position}
                   label={marker.title}
                   onClick={marker.onClick}
@@ -55,9 +64,10 @@ export const Map = ({ markers, center, zoom }: Props) => {
                   onMouseOut={(_) => setSelectedMarker(null)}
                   clusterer={clusterer}
                   icon={{
-                    url: require("../../assets/img/vodafone-logo.png"),
-                    scaledSize: new google.maps.Size(65, 65),
-                    origin: new google.maps.Point(0, -20),
+                    url: require("../../assets/img/marker-icon.png"),
+                    scaledSize: new google.maps.Size(40, 40),
+                    size: new google.maps.Size(40, 100),
+                    origin: new google.maps.Point(0, 0),
                   }}
                 >
                   {selectedMarker?.id === marker.id && marker.infoComponent && (
