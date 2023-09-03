@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Device } from "./device.model";
 
-const GET_DEVICES = gql`
+export const GET_DEVICES = gql`
   query GetDevices {
     getDevices {
       id
