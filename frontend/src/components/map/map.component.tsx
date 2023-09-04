@@ -1,12 +1,11 @@
 import {
   GoogleMap,
   useJsApiLoader,
-  Marker,
   MarkerClusterer,
-  InfoWindow,
 } from "@react-google-maps/api";
 import { MapMarker, MapPosition } from "../../model/map.model";
 import { useState } from "react";
+import { MapMarkerComponent } from "./map-marker.component";
 
 const containerStyle = {
   width: "100%",
@@ -31,54 +30,54 @@ interface Props {
 
 export const Map = ({ markers, center, zoom, getClickPosition }: Props) => {
   const [selectedMarker, setSelectedMarker] = useState<MapMarker | null>(null);
+  const [newMarker, setNewMarker] = useState<MapMarker | null>(null);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY || "",
   });
 
+  const handleOnClick = (event: any) => {
+    const position = {
+      lat: event.latLng?.lat() || 0,
+      lng: event.latLng?.lng() || 0,
+    };
+
+    if (getClickPosition) {
+      getClickPosition(position);
+      setNewMarker({
+        id: "new-marker",
+        position,
+        title: "New marker",
+      });
+    }
+  };
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center || defaultCenter}
       zoom={zoom || defaultZoom}
-      onClick={(event) =>
-        getClickPosition &&
-        getClickPosition({
-          lat: event.latLng?.lat() || 0,
-          lng: event.latLng?.lng() || 0,
-        })
-      }
+      onClick={handleOnClick}
     >
+      {newMarker && (
+        <MapMarkerComponent
+          marker={newMarker}
+          isSelected={selectedMarker?.id === newMarker.id}
+          setSelectedMarker={setSelectedMarker}
+        />
+      )}
       {markers && (
         <MarkerClusterer maxZoom={14} averageCenter={true}>
           {(clusterer) => (
             <div>
               {markers.map((marker) => (
-                <Marker
-                  key={marker.id}
-                  position={marker.position}
-                  label={marker.title}
-                  onClick={marker.onClick}
-                  onMouseOver={(_) => setSelectedMarker(marker)}
-                  onMouseOut={(_) => setSelectedMarker(null)}
+                <MapMarkerComponent
                   clusterer={clusterer}
-                  icon={{
-                    url: require("../../assets/img/marker-icon.png"),
-                    scaledSize: new google.maps.Size(40, 40),
-                    size: new google.maps.Size(40, 100),
-                    origin: new google.maps.Point(0, 0),
-                  }}
-                >
-                  {selectedMarker?.id === marker.id && marker.infoComponent && (
-                    <InfoWindow
-                      position={marker.position}
-                      onCloseClick={() => setSelectedMarker(null)}
-                    >
-                      {marker.infoComponent}
-                    </InfoWindow>
-                  )}
-                </Marker>
+                  marker={marker}
+                  isSelected={selectedMarker?.id === marker.id}
+                  setSelectedMarker={setSelectedMarker}
+                />
               ))}
             </div>
           )}
